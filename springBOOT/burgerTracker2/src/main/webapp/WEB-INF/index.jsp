@@ -1,0 +1,70 @@
+<%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
+<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core"%>
+<%@ taglib prefix="form" uri="http://www.springframework.org/tags/form" %>
+<%@ page isErrorPage="true" %>
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css" />
+	<title>Acceuil burger</title>
+</head>
+<body class="bg-dark text-light">
+	<div class="container p-3">
+		<h1>Burger Tracker:</h1>
+		<table class="table table-striped">
+  		<thead>
+    		<tr class="table-info">
+    			<th scope="col">ID</th>
+      			<th scope="col">Burger Name</th>
+      			<th scope="col">Restaurant Name</th>
+      			<th scope="col">Rating(out of 5)</th>
+      			<th scope="col">Action</th>
+    		</tr>
+  		</thead>
+  		<tbody>
+  			<c:forEach var="burg" items="${burgers}">
+    			<tr>
+    				<td class="text-light"><c:out value="${burg.id}"></c:out></td>
+    				<td class="text-uppercase text-light"><a href="/burger/${burg.id}/edit" class="link-primary text-decoration-none"><c:out value="${burg.burgerName}"></c:out></a></td>
+					<td class="text-light"><c:out value="${burg.restaurantName}"></c:out></td>
+      				<td class="text-light"><c:out value="${burg.rating}"></c:out></td>
+      				<td class="text-uppercase text-light"><a href="/burger/${burg.id}/edit" class="link-primary text-decoration-underline">Show-Edit</a></td>
+    			</tr>
+    		</c:forEach>
+    	</tbody>
+    	</table>
+    
+    	<form:form action="/burger/new" method="POST" modelAttribute="burger" class="col-4 p-2 bg-dark text-light">
+			<h2 class="text-warning">Add a Burger:</h2>
+			<div class="form-group">
+                <form:label path="burgerName">Burger Name:</form:label>
+                <form:errors path="burgerName" class="text-danger"/>
+                <form:input type="text" path="burgerName" class="form-control"/>
+            </div>
+
+			<div class="form-group">
+				<form:label path="restaurantName">Restaurant Name:</form:label>
+				<form:errors path="restaurantName" class="text-danger"/>
+  				<form:input type="text" path="restaurantName" class="form-control"/>
+			</div>
+			
+			<div class="form-group">
+                <form:label path="rating">Rating(out of 5):</form:label>
+                <form:errors path="rating" class="text-danger"/>
+                <form:input type="number" path="rating" class="form-control" style="width:80px;"/>
+            </div>
+            <div class="form-group">
+				<form:label path="note">Note:</form:label>
+				<form:errors path="note" class="text-danger"/>
+  				<form:textarea class="form-control" path="note" style="height:100px;"></form:textarea>
+			</div>
+            <div class="form-group p-3 float-end">
+            	<input type="submit" value="Submit" class="btn btn-warning"/>
+            </div>
+		</form:form>
+    
+	</div>
+	
+</body>
+</html>
